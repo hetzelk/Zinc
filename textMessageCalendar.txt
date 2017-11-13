@@ -1,0 +1,143 @@
+Text Message Calendar
+Purpose: To remind friends and family of events going on in your/our life/lives. Our personal calendars are usually only in one place at a time, our phone, wall, or fridge. This system will ensure that everyone is reminded of the events going on in one or many people's life as they will specify who will receive their reminders.
+
+
+
+As a user...
+I would like to be able to send a simple text to a number and have it store my calendar reminder
+-repeat options (day, week, year)
+
+I would like to be able to cancel every current and future notification for an reminder
+
+I would like to be able to set my own reminder schedule increments
+-ex:"I would like to receive reminders for every event 1 week, 2 days, 1 day, 2 hours in advance"
+
+I would like to be able to turn off all future reminders for a specified reminder
+
+I would like to be able to turn off notifications for all reminders, but not deleting any calendar reminders, simply permanently snoozing
+
+I would like to turn off my permanent snoozing as I mentioned above
+
+I would like to be able to snooze the notification in increments as I specify
+-X hour (s)
+-X minutes
+-X days
+
+I would like to very simply opt out of receiving any texts
+
+I would like a detailed instruction set when I request HELP
+
+I would like to send invites to new users
+
+I would like to add contacts to be notified/texted on specific reminders of my calendar
+
+I would like to add groups of contacts that can recieve 
+
+I would like to ask for a list of my groups 
+
+I would like to ask for a list of my contacts
+
+I would like to ask for a list of the people in a specific group
+
+I would like to ask for a list of all the upcoming calendar reminders
+-do not send the duplicates simply say Keith's Birthday - April 22 (yearly repeat)
+
+I would like to get a list of people who will be notified for a specific calendar reminder
+
+Complicated:
+As the system grows, family and friends may start overlapping reminders to one another. Add the ability to label as duplicates that way only 1 reminder will be sent out for the correct event
+
+
+How to format all these messages simply
+Scheduling
+Message:
+schdeule 
+cancel
+create group 
+cancel group
+list contacts
+list group
+list {group} contacts
+ignore everything
+remind everything
+invite {name, phone number}
+
+
+HELP:
+Response:
+schedule {name ex:"Keith's Birthday"} {date ex:"4-22-1996"} {repeat ex:"year" or "never"}
+Example: schedule Keith's Birthday 4-22-1996 yearly
+-reminders will be sent at noon CST if no time is specified
+
+
+
+In the long run-
+I would like a website to be able to manage everything easier
+I would like an app to be able to easily view it mobily, 
+BUT the purpose of this calendar is the simplicity of text messages, so I'm not sure if making an app would be worth it. 
+
+================SPECIFICATIONS================================
+How the notification system should work-
+Figure out a way to never miss a notification
+Every minute, queue the reminders that should be sent out?
+This is difficult because reminders need to not only be on the exact day, but in advance, so every event needs to have multiple reminders previous to the actual event
+-When an event is created for a reminder, create all the dates and times that notifications should be sent out.
+
+
+
+Table design
+
+---USERS---
+user_uuid
+phone_number
+first_name
+last_name
+birthday
+default_reminder_times
+snooze
+
+---EVENTS---
+event_uuid
+user_uuid
+date
+event_name
+surprise (is the event a surprise?)
+repeat_cadence (how often does the event repeat: 0 for never)
+description (full description of event)
+note (short note to be added when each reminder is sent)
+
+---REMINDERS--- multiple reminders can be inside this table for the same event
+reminder_uuid
+event_uuid
+reminder_time
+group_uuid (group to send reminder to)
+user_uuid (user who created the reminder)
+
+---GROUPS---
+group_uuid
+group_name
+users (list of user_uuid 's in this group)
+
+---MESSAGE_HISTORY--- message history will be here as a historical reference
+user_uuid
+message_date
+message
+successful
+snooze (if a user decides to snooze a reminder, a new reminder will be inserted to their default snooze duration from the time after the first reminder was sent)
+
+
+
+
+
+
+
+RELEASE/DEVELOPMENT PLANNING
+Create basic reminder system for myself and some close others.
+	this will consist of 
+		events can be made
+		groups can be made and joined
+		reminders will be sent on the default times of the user
+
+
+
+
