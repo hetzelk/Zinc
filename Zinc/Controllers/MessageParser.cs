@@ -9,8 +9,8 @@ namespace Zinc.Controllers
 {
     public class MessageParser
     {
-        string number;
-        string message;
+        public UserDetailsModel userModel;
+        public MessageDetailsModel messageModel;
         string[] options = new string[]
         {
             "help", "stop", "mute", "unmute", "snooze",
@@ -18,50 +18,27 @@ namespace Zinc.Controllers
             "new", "invite"
         };
 
-        /*
-         * Future items to be added
-         * name, group
-         */
-        UserDetailsModel user;
-        MessageDetailsModel messageModel;
-
-        public MessageParser(string number, string message)
+        public MessageParser(UserDetailsModel userModel, MessageDetailsModel messageModel)
         {
-            this.number = number;
-            this.message = message.ToLower();
-            user = new UserDetailsModel();
-            messageModel = new MessageDetailsModel();
+            this.userModel = userModel;
+            this.messageModel = messageModel;
+            userModel.Number = messageModel.initial_number;
 
             ParseMessage();
+
             //get user details after the message is parsed because not all details are required for all message types
-            GetUserDetails();
+            
+            UserDetailsController userController = new UserDetailsController(userModel);
+            userModel = userController.GetAllUserDetails();
         }
 
-        private void GetUserDetails()
-        {
-            //search db for current user(phone number lookup)
-            //get all their details
-
-            //go through UserDetailsCOntroller
-            if (number == "4145200673")
-            {
-                user.Name = "Keith";
-                user.Number = number;
-                user.Groups = "";
-            }
-            else
-            {
-                user.Name = "Unknown";
-                user.Number = "555";
-            }
-        }
 
         public string ParseMessage()
         {
             //checkInitializationProgress();
             foreach (string option in options)
             {
-                if (message.Contains(option))
+                if (messageModel.initial_message.Contains(option))
                 {
                     //find all things that can be set with a bool
                     SetOptions(option);

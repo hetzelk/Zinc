@@ -1,35 +1,50 @@
-﻿?using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Zinc.Extensions;
+using Zinc.Models;
 
 namespace Zinc.Controllers
 {
     public class Responder
     {
-        private MessageProcessor processor;
+        public UserDetailsModel userModel;
+        public MessageDetailsModel messageModel;
 
         public Responder(MessageProcessor processor)
         {
-            this.processor = processor;
+            this.userModel = processor.userModel;
+            this.messageModel = processor.messageModel;
         }
 
-        public void sendMessage()
+        public string sendMessage()
         {
             //create api call to eztexting to reply to user
+            //for now, just use this as a return statement 
             try
             {
-
+                return FormMessage();
             }
             catch (Exception e)
             {
-                //log this
+                Logger logs = new Logger("exceptions", e.ToString());
+                logs.Dispose(logs);
+                return e.ToString();
             }
         }
 
-        public void FormMessage()
+        public string FormMessage()
         {
-
+            Responses responses = new Responses();
+            if (messageModel.mute)
+            {
+                return responses.Mute();
+            }
+            else
+            {
+                return "default response";
+            }
         }
     }
 
@@ -40,12 +55,12 @@ namespace Zinc.Controllers
             return String.Format("You created a new event on {0}, your default reminders have been set", date);
         }
 
-        public string Mute(string date)
+        public string Mute()
         {
             return "You have muted all of your notifications, reply with UNMUTE to resume your notifications";
         }
 
-        public string UnMute(string date)
+        public string UnMute()
         {
             return "You have resumed all of your notifications, reply with MUTE to pause your notifications";
         }
@@ -70,7 +85,7 @@ namespace Zinc.Controllers
 
             }
             //ex.
-            return "2 hours 30 minutes";
+            return "2 hours 30 " + defaultSnoozeTime;
         }
     }
 }

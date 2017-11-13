@@ -7,6 +7,9 @@ namespace Zinc.Models
 {
     public class MessageDetailsModel
     {
+        public string initial_number { get; set; }
+        public string initial_message { get; set; }
+
         public bool help { get; set; }
         public bool stop { get; set; }
         public bool snooze { get; set; }
