@@ -57,7 +57,7 @@ namespace Zinc.Controllers
             }
             catch (Exception e)
             {
-                Logger logs = new Logger("exceptions", e.ToString());
+                Logger logs = new Logger("exceptions", DateTime.Now.ToString() + " - " + e.ToString());
                 logs.Dispose(logs);
 
                 return e.ToString();

@@ -70,22 +70,8 @@ namespace Zinc.Controllers
             //parse the time to decide whether reminders are minutes or hours
             //strore defaukt snooze time as a minutes int
 
-            string timeDelay = humanizeShortTime(defaultSnoozeTime);
+            string timeDelay = defaultSnoozeTime.HumanizeMinutes();
             return String.Format("You have snoozed the {0} notification/s, you will be reminded again in {1}.", eventName, timeDelay);
-        }
-
-        private string humanizeShortTime(int defaultSnoozeTime)
-        {
-            string hoursOrMinutes = "minutes";
-            if (defaultSnoozeTime > 59)
-            {
-                hoursOrMinutes = "hours";
-                //fix this, parse time properly
-                defaultSnoozeTime = defaultSnoozeTime / 60;
-
-            }
-            //ex.
-            return "2 hours 30 " + defaultSnoozeTime;
         }
     }
 }

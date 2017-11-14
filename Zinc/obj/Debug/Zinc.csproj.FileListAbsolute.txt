@@ -85,6 +85,15 @@ C:\Users\keith\Documents\Github\Zinc\Zinc\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\keith\Documents\Github\Zinc\Zinc\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\keith\Documents\Github\Zinc\Zinc\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\keith\Documents\Github\Zinc\Zinc\bin\System.Web.Http.Owin.xml
-C:\Users\keith\Documents\Github\Zinc\Zinc\obj\Debug\Zinc.csprojResolveAssemblyReference.cache
 C:\Users\keith\Documents\Github\Zinc\Zinc\obj\Debug\Zinc.dll
 C:\Users\keith\Documents\Github\Zinc\Zinc\obj\Debug\Zinc.pdb
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.Core.dll
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.DynamoDBv2.dll
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.S3.dll
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.Core.pdb
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.Core.xml
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.DynamoDBv2.pdb
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.DynamoDBv2.xml
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.S3.pdb
+C:\Users\keith\Documents\Github\Zinc\Zinc\bin\AWSSDK.S3.xml
+C:\Users\keith\Documents\Github\Zinc\Zinc\obj\Debug\Zinc.csprojResolveAssemblyReference.cache

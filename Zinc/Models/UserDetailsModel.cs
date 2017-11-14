@@ -7,14 +7,23 @@ namespace Zinc.Models
 {
     public class UserDetailsModel
     {
-        public string Uuid { get; set; }
+        public string user_uuid { get; set; }
 
-        public string Name { get; set; }
+        public bool enabled { get; set; }
 
-        public string Number { get; set; }
+        public string phone_number { get; set; }
 
-        public string Enabled { get; set; }
+        public string first_name { get; set; }
 
-        public string Groups { get; set; }
+        public string last_name { get; set; }
+
+        public bool mute { get; set; }
+
+        public string birthday { get; set; }
+
+        //string array in minute increments, 60, 120, 1440 defaults
+        public string default_reminder_times { get; set; }
+
+        public string groups { get; set; }
     }
 }

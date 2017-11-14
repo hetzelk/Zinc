@@ -22,7 +22,7 @@ namespace Zinc.Controllers
         {
             this.userModel = userModel;
             this.messageModel = messageModel;
-            userModel.Number = messageModel.initial_number;
+            userModel.phone_number = messageModel.initial_number;
 
             ParseMessage();
 
