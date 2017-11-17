@@ -42,10 +42,7 @@ namespace Zinc.Controllers
                 documentList = search.GetNextSet();
                 foreach (var document in documentList)
                 {
-                    foreach (var key in document.Keys)
-                    {
-                        reminders.Add(document);
-                    }
+                    reminders.Add(document);
                 }
             } while (!search.IsDone);
             return reminders;
@@ -56,12 +53,18 @@ namespace Zinc.Controllers
             var client = new AmazonDynamoDBClient();
 
             Table reminderTable = Table.LoadTable(client, "Events");
-            
+
+            var event_uuid = reminder["event_uuid"].ToString();
+
+            QueryFilter filter = new QueryFilter("event_uuid", QueryOperator.Equal, event_uuid);
+
             QueryOperationConfig config = new QueryOperationConfig()
             {
-                Filter = new QueryFilter("event_uuid", QueryOperator.Equal, reminder["event_uuid"]),
+                Limit = 2, // 2 items/page.
                 Select = SelectValues.SpecificAttributes,
-                AttributesToGet = new List<string> { "reminder_date", "valid", "event_uuid", "user_uuid", "group_uuid" }
+                AttributesToGet = new List<string> { "reminder_date", "valid", "event_uuid", "user_uuid", "group_uuid" },
+                ConsistentRead = true,
+                Filter = filter
             };
 
             Search search = reminderTable.Query(config);
