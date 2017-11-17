@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +12,7 @@ namespace Zinc.Controllers
     public class MessageParser
     {
         public UserDetailsModel userModel;
-        public MessageDetailsModel messageModel;
+        public IncomingMessageModel messageModel;
         string[] options = new string[]
         {
             "help", "stop", "mute", "unmute", "snooze",
@@ -18,7 +20,7 @@ namespace Zinc.Controllers
             "new", "invite"
         };
 
-        public MessageParser(UserDetailsModel userModel, MessageDetailsModel messageModel)
+        public MessageParser(UserDetailsModel userModel, IncomingMessageModel messageModel)
         {
             this.userModel = userModel;
             this.messageModel = messageModel;
@@ -27,7 +29,7 @@ namespace Zinc.Controllers
             ParseMessage();
 
             //get user details after the message is parsed because not all details are required for all message types
-            
+
             UserDetailsController userController = new UserDetailsController(userModel);
             userModel = userController.GetAllUserDetails();
         }
@@ -58,7 +60,7 @@ namespace Zinc.Controllers
                     messageModel.stop = true;
                     break;
                 case "mute":
-                    messageModel.mute= true;
+                    messageModel.mute = true;
                     break;
                 case "unmute":
                     messageModel.mute = false;

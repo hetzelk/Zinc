@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Zinc.Models
 {
-    public class MessageDetailsModel
+    public class TextMessageModel
     {
         public string initial_number { get; set; }
         public string initial_message { get; set; }

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using Zinc.Extensions;
 using Zinc.Models;
@@ -10,7 +14,7 @@ namespace Zinc.Controllers
     public class Responder
     {
         public UserDetailsModel userModel;
-        public MessageDetailsModel messageModel;
+        public IncomingMessageModel messageModel;
 
         public Responder(MessageProcessor processor)
         {
@@ -18,13 +22,41 @@ namespace Zinc.Controllers
             this.messageModel = processor.messageModel;
         }
 
-        public string sendMessage()
+        public Responder()
         {
-            //create api call to eztexting to reply to user
-            //for now, just use this as a return statement 
+        }
+
+        public string sendMessage(string textMessage)
+        {
             try
             {
-                return FormMessage();
+                NameValueCollection outgoingQueryString = HttpUtility.ParseQueryString(String.Empty);
+                outgoingQueryString.Add("Message", textMessage);
+                outgoingQueryString.Add("PhoneNumbers", "4145200673");
+                string postdata = outgoingQueryString.ToString();
+
+                ASCIIEncoding ascii = new ASCIIEncoding();
+                byte[] postBytes = ascii.GetBytes(outgoingQueryString.ToString());
+
+                var request = HttpWebRequest.Create("https://app.eztexting.com/sending/messages?format=json&User=keithh8112&Password=QkF8r9eCMVrv");
+                request.Method = "POST";
+
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = postBytes.Length;
+
+                // add post data to request
+                Stream postStream = request.GetRequestStream();
+                postStream.Write(postBytes, 0, postBytes.Length);
+                postStream.Flush();
+                postStream.Close();
+
+                var response = request.GetResponse();
+                string message = FormMessage();
+                //send the message
+                //update the dynamo entry to invalid since the message was sent
+                //update the logs as necessary
+
+                return message;
             }
             catch (Exception e)
             {

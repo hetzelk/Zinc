@@ -18,13 +18,13 @@ namespace Zinc.Controllers
          * name, group
          */
         UserDetailsModel userModel;
-        MessageDetailsModel messageModel;
+        IncomingMessageModel messageModel;
 
         // GET api/ez?from=123123123&message=helloWorld
         public string Get()
         {
             userModel = new UserDetailsModel();
-            messageModel = new MessageDetailsModel();
+            messageModel = new IncomingMessageModel();
 
             var query_params = Request.GetQueryNameValuePairs();
             messageModel.initial_number = query_params.Where(item => item.Key == "from").First().Value.ToString();
@@ -50,10 +50,11 @@ namespace Zinc.Controllers
 
                 "Is the default event time of 2PM fine? Otherwise you have to specify an event time plus the date."
                  */
+
                 MessageParser parser = new MessageParser(userModel, messageModel);
                 MessageProcessor processor = new MessageProcessor(parser);
                 Responder response = new Responder(processor);
-                return response.sendMessage();
+                return response.sendMessage("");
             }
             catch (Exception e)
             {
