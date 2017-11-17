@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Zinc.Models;
 
 namespace Zinc.Controllers
 {
@@ -20,12 +21,13 @@ namespace Zinc.Controllers
 
         public void GetDynamoReminders(DateTime now)
         {
-            DynamoController dynamo = new DynamoController();
-            List<Document> reminders = dynamo.GetReminders(now);
+            DynamoController db = new DynamoController();
+            List<Document> reminders = db.GetReminders(now);
             Parallel.ForEach(reminders, reminder =>
             {
-                dynamo.GetEventDetails(reminder);
+                TextMessageModel text = db.GetEventDetails(reminder["event_uuid"].ToString());
 
+                
             });
         }
 

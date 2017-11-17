@@ -8,7 +8,7 @@ namespace Zinc.Controllers
 {
     public class MessageProcessor
     {
-        public UserDetailsModel userModel;
+        public Models.UserDetailsModel userModel;
         public IncomingMessageModel messageModel;
 
         public MessageProcessor(MessageParser parser)

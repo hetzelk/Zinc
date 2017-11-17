@@ -13,7 +13,7 @@ namespace Zinc.Controllers
 {
     public class Responder
     {
-        public UserDetailsModel userModel;
+        public Models.UserDetailsModel userModel;
         public IncomingMessageModel messageModel;
 
         public Responder(MessageProcessor processor)

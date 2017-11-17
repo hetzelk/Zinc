@@ -1,9 +1,11 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Zinc.Models;
 
 namespace Zinc.Controllers
 {
@@ -19,7 +21,6 @@ namespace Zinc.Controllers
         public List<Document> GetReminders(DateTime now)
         {
             List<Document> reminders = new List<Document>();
-            var client = new AmazonDynamoDBClient();
 
             string timenow = now.ToString("o");
             timenow.Trim();
@@ -48,41 +49,80 @@ namespace Zinc.Controllers
             return reminders;
         }
 
-        public void GetEventDetails(Document reminder)
+        public TextMessageModel GetEventDetails(string event_uuid)
         {
-            var client = new AmazonDynamoDBClient();
-
-            Table reminderTable = Table.LoadTable(client, "Events");
-
-            var event_uuid = reminder["event_uuid"].ToString();
-
-            QueryFilter filter = new QueryFilter("event_uuid", QueryOperator.Equal, event_uuid);
-
-            QueryOperationConfig config = new QueryOperationConfig()
+            Dictionary<string, Condition> keyConditions = GenerateKeyCondition(EventsTable.event_uuid, event_uuid);
+            
+            QueryRequest request = new QueryRequest()
             {
-                Limit = 2, // 2 items/page.
-                Select = SelectValues.SpecificAttributes,
-                AttributesToGet = new List<string> { "reminder_date", "valid", "event_uuid", "user_uuid", "group_uuid" },
+                TableName = EventsTable.table_name,
+                Limit = 1,
+                AttributesToGet = typeof(EventsTable).GetFields().Select(field => field.Name).ToList(),
                 ConsistentRead = true,
-                Filter = filter
+                KeyConditions = keyConditions
             };
 
-            Search search = reminderTable.Query(config);
+            return new TextMessageModel(client.Query(request));        
+        }
 
-            List<Document> documentList = new List<Document>();
-            do
+        public List<UserDetailsModel> GetGroup(string group_uuid)
+        {
+            Dictionary<string, Condition> keyConditions = GenerateKeyCondition(GroupsTable.group_uuid, group_uuid);
+
+            QueryRequest request = new QueryRequest()
             {
-                documentList = search.GetNextSet();
-                foreach (var document in documentList)
-                {
-                    foreach (var key in document.Keys)
-                    {
+                TableName = GroupsTable.table_name,
+                Limit = 1,
+                AttributesToGet = typeof(GroupsTable).GetFields().Select(field => field.Name).ToList(),
+                ConsistentRead = true,
+                KeyConditions = keyConditions
+            };
 
-                        //add the details to the text message modal here
+            var groupDetails = new GroupModel(client.Query(request));
+
+            List<UserDetailsModel> members = new List<UserDetailsModel>();
+            foreach (string number in groupDetails.user_uuids)
+            {
+                members.Add(GetUser(number));
+            }
+
+            return members;
+        }
+
+        public UserDetailsModel GetUser(string phone_number)
+        {
+            Dictionary<string, Condition> keyConditions = GenerateKeyCondition(UsersTable.phone_number, phone_number);
+
+            QueryRequest request = new QueryRequest()
+            {
+                TableName = UsersTable.table_name,
+                Limit = 1,
+                AttributesToGet = typeof(EventsTable).GetFields().Select(field => field.Name).ToList(),
+                ConsistentRead = true,
+                KeyConditions = keyConditions
+            };
+
+            return new UserDetailsModel(client.Query(request));
+        }
+
+        public Dictionary<string, Condition> GenerateKeyCondition(string key, string value)
+        {
+            Dictionary<string, Condition> keyConditions = new Dictionary<string, Condition>
+            {
+                {
+                    key,
+                    new Condition
+                    {
+                        ComparisonOperator = "EQ",
+                        AttributeValueList = new List<AttributeValue>
+                        {
+                            new AttributeValue { S = value }
+                        }
                     }
                 }
-            } while (!search.IsDone);
-            //return textmessagemodel            
+            };
+
+            return keyConditions;
         }
     }
 }

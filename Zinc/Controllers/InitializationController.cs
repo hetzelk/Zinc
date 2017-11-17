@@ -18,7 +18,7 @@ namespace Zinc.Controllers
         //    5:"Are these default reminder times alright? 1 hour before, 3 hours before, and 24 hours before?"
         //};
 
-        public InitializationController(UserDetailsModel user)
+        public InitializationController(Models.UserDetailsModel user)
         {
             int progress = CheckProgress();
         }

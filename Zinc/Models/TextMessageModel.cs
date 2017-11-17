@@ -2,38 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Amazon.DynamoDBv2.Model;
 
 namespace Zinc.Models
 {
     public class TextMessageModel
     {
-        public string initial_number { get; set; }
-        public string initial_message { get; set; }
+        private QueryResponse queryResponse;
 
-        public bool help { get; set; }
-        public bool stop { get; set; }
-        public bool snooze { get; set; }
-        public bool mute { get; set; }
-        public bool unmute { get; set; }
+        public TextMessageModel()
+        {
+        }
 
-        public bool invite { get; set; }
-        public string name { get; set; }
-        public string number { get; set; }
+        public TextMessageModel(QueryResponse queryResponse)
+        {
+            this.queryResponse = queryResponse;
 
-        public bool events { get; set; }
-        public bool reminders { get; set; }
-        public bool groups { get; set; }
+            this.event_date = queryResponse.Items[0][EventsTable.event_date].S;
+            this.event_name = queryResponse.Items[0][EventsTable.event_name].S;
+            this.description= queryResponse.Items[0][EventsTable.description].S;
+            this.note = queryResponse.Items[0][EventsTable.note].S;
+            this.surprise = queryResponse.Items[0][EventsTable.surprise].BOOL;
+        }
 
-        public bool createEvent { get; set; }
-        public bool changeEvent { get; set; }
-        public bool deleteEvent { get; set; }
-
-        public string eventName { get; set; }
-        public string eventDate { get; set; }
-        public string eventGroup { get; set; }
-
-        public bool createGroup { get; set; }
-        public string groupName { get; set; }
-        public List<UserDetailsModel> groupMembers { get; set; }
+        public string event_date { get; set; }
+        public string event_name { get; set; }
+        public string description { get; set; }
+        public string note { get; set; }
+        public bool surprise { get; set; }
     }
 }
