@@ -9,9 +9,12 @@ namespace Zinc.Models
     {
         public static string table_name = "Users";
 
+        //user_uuid and phone_number are the same.
+        //This just makes sense because an ID of phone_number wouldn't make sense in some cases, 
+        //but without phone number, user_uuid would be confusing
         public static string phone_number = "phone_number";
-        public static string enabled = "enabled";
         public static string user_uuid = "user_uuid";
+        public static string enabled = "enabled";
         public static string first_name = "first_name";
         public static string last_name = "last_name";
         public static string birthday = "birthday";

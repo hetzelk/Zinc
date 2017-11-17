@@ -22,9 +22,10 @@ namespace Zinc
             ReminderChecker checker = new ReminderChecker();
             while(true)//while running
             {
-                var now = DateTime.Now;
+                var now = DateTime.Now.ToUniversalTime();
                 checker.GetDynamoReminders(now);
-                Thread.Sleep(60000);
+                //Do this almost twice every minute, that way no times will ever be lost
+                Thread.Sleep(55000);
             }
         }
     }

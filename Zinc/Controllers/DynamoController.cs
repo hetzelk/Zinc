@@ -21,18 +21,18 @@ namespace Zinc.Controllers
         public List<Document> GetReminders(DateTime now)
         {
             List<Document> reminders = new List<Document>();
+            string timenow = now.ToString("o").Substring(0, 16);
+            Table reminderTable = Table.LoadTable(client, RemindersTable.table_name);
 
-            string timenow = now.ToString("o");
-            timenow.Trim();
-            Table reminderTable = Table.LoadTable(client, "Reminders");
             ScanFilter scanFilter = new ScanFilter();
-            scanFilter.AddCondition("reminder_date", ScanOperator.BeginsWith, "11-24-2017T18:00");
+            //trim the date properly to get every minutes time
+            scanFilter.AddCondition(RemindersTable.reminder_date, ScanOperator.BeginsWith, timenow);
 
             ScanOperationConfig config = new ScanOperationConfig()
             {
                 Filter = scanFilter,
                 Select = SelectValues.SpecificAttributes,
-                AttributesToGet = new List<string> { "reminder_date", "valid", "event_uuid", "user_uuid", "group_uuid" }
+                AttributesToGet = typeof(RemindersTable).GetFields().Select(field => field.Name).ToList()
             };
 
             Search search = reminderTable.Scan(config);
@@ -81,23 +81,23 @@ namespace Zinc.Controllers
             var groupDetails = new GroupModel(client.Query(request));
 
             List<UserDetailsModel> members = new List<UserDetailsModel>();
-            foreach (string number in groupDetails.user_uuids)
+            foreach (string user_uuid in groupDetails.user_uuids)
             {
-                members.Add(GetUser(number));
+                members.Add(GetUser(user_uuid));
             }
 
             return members;
         }
 
-        public UserDetailsModel GetUser(string phone_number)
+        public UserDetailsModel GetUser(string user_uuid)
         {
-            Dictionary<string, Condition> keyConditions = GenerateKeyCondition(UsersTable.phone_number, phone_number);
+            Dictionary<string, Condition> keyConditions = GenerateKeyCondition(UsersTable.phone_number, user_uuid);
 
             QueryRequest request = new QueryRequest()
             {
                 TableName = UsersTable.table_name,
                 Limit = 1,
-                AttributesToGet = typeof(EventsTable).GetFields().Select(field => field.Name).ToList(),
+                AttributesToGet = typeof(UsersTable).GetFields().Select(field => field.Name).ToList(),
                 ConsistentRead = true,
                 KeyConditions = keyConditions
             };

@@ -258,6 +258,7 @@
     <Compile Include="Controllers\UserDetailsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Extensions\Logger.cs" />
+    <Compile Include="Extensions\StringEx.cs" />
     <Compile Include="Extensions\TimeEx.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

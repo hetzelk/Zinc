@@ -54,7 +54,7 @@ namespace Zinc.Controllers
                 MessageParser parser = new MessageParser(userModel, messageModel);
                 MessageProcessor processor = new MessageProcessor(parser);
                 Responder response = new Responder(processor);
-                return response.sendMessage("");
+                return response.sendMessage("4145200673", "ez reply");
             }
             catch (Exception e)
             {

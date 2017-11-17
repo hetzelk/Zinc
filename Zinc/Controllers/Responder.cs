@@ -13,7 +13,7 @@ namespace Zinc.Controllers
 {
     public class Responder
     {
-        public Models.UserDetailsModel userModel;
+        public UserDetailsModel userModel;
         public IncomingMessageModel messageModel;
 
         public Responder(MessageProcessor processor)
@@ -26,13 +26,19 @@ namespace Zinc.Controllers
         {
         }
 
-        public string sendMessage(string textMessage)
+        public void sendEzMessage(UserDetailsModel user, TextMessageModel text)
+        {
+            Logger log = new Logger("sent_messages", text.event_date + " - " + user.phone_number + " - " + text.description);
+            sendMessage(user.phone_number, text.description);
+        }
+
+        public string sendMessage(string phone_number, string textMessage)
         {
             try
             {
                 NameValueCollection outgoingQueryString = HttpUtility.ParseQueryString(String.Empty);
                 outgoingQueryString.Add("Message", textMessage);
-                outgoingQueryString.Add("PhoneNumbers", "4145200673");
+                outgoingQueryString.Add("PhoneNumbers", phone_number);
                 string postdata = outgoingQueryString.ToString();
 
                 ASCIIEncoding ascii = new ASCIIEncoding();

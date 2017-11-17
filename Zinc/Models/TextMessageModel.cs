@@ -23,12 +23,15 @@ namespace Zinc.Models
             this.description= queryResponse.Items[0][EventsTable.description].S;
             this.note = queryResponse.Items[0][EventsTable.note].S;
             this.surprise = queryResponse.Items[0][EventsTable.surprise].BOOL;
+            this.user_uuid = queryResponse.Items[0][EventsTable.user_uuid].S;
         }
 
         public string event_date { get; set; }
         public string event_name { get; set; }
         public string description { get; set; }
         public string note { get; set; }
+        public string group_uuid { get; set; }
+        public string user_uuid { get; set; }
         public bool surprise { get; set; }
     }
 }

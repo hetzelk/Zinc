@@ -14,6 +14,7 @@ namespace Zinc.Extensions
 
             using (var writer = new StreamWriter(file, true))
             {
+                writer.WriteLine("----------" + DateTime.Now + "----------");
                 writer.WriteLine(message);
             }
         }
