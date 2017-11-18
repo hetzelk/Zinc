@@ -30,8 +30,8 @@ namespace Zinc.Controllers
 
             //get user details after the message is parsed because not all details are required for all message types
 
-            UserDetailsController userController = new UserDetailsController(userModel);
-            userModel = userController.GetAllUserDetails();
+            //UsersController userController = new UsersController(userModel);
+            //userModel = userController.GetAllUserDetails();
         }
 
 

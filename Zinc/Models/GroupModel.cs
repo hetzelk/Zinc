@@ -8,18 +8,18 @@ namespace Zinc.Models
 {
     public class GroupModel
     {
-        private QueryResponse queryResponse;
+        private GetItemResponse queryResponse;
 
         public GroupModel()
         {
         }
 
-        public GroupModel(QueryResponse queryResponse)
+        public GroupModel(GetItemResponse queryResponse)
         {
             this.queryResponse = queryResponse;
 
-            this.group_name = queryResponse.Items[0][GroupsTable.group_name].S;
-            this.user_uuids = queryResponse.Items[0][GroupsTable.members].S.Split(',').ToList();
+            this.group_name = queryResponse.Item[GroupsTable.group_name].S;
+            this.user_uuids = queryResponse.Item[GroupsTable.members].S.Split(',').ToList();
         }
 
         public string group_name { get; set; }

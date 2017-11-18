@@ -8,22 +8,22 @@ namespace Zinc.Models
 {
     public class TextMessageModel
     {
-        private QueryResponse queryResponse;
+        private GetItemResponse queryResponse;
 
         public TextMessageModel()
         {
         }
 
-        public TextMessageModel(QueryResponse queryResponse)
+        public TextMessageModel(GetItemResponse queryResponse)
         {
             this.queryResponse = queryResponse;
 
-            this.event_date = queryResponse.Items[0][EventsTable.event_date].S;
-            this.event_name = queryResponse.Items[0][EventsTable.event_name].S;
-            this.description= queryResponse.Items[0][EventsTable.description].S;
-            this.note = queryResponse.Items[0][EventsTable.note].S;
-            this.surprise = queryResponse.Items[0][EventsTable.surprise].BOOL;
-            this.user_uuid = queryResponse.Items[0][EventsTable.user_uuid].S;
+            this.event_date = queryResponse.Item[EventsTable.event_date].S;
+            this.event_name = queryResponse.Item[EventsTable.event_name].S;
+            this.description= queryResponse.Item[EventsTable.description].S;
+            this.note = queryResponse.Item[EventsTable.note].S;
+            this.surprise = queryResponse.Item[EventsTable.surprise].BOOL;
+            this.user_uuid = queryResponse.Item[EventsTable.user_uuid].S;
         }
 
         public string event_date { get; set; }

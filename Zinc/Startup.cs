@@ -15,11 +15,14 @@ namespace Zinc
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            checkReminders();
+            new Thread(() =>
+            {
+                checkReminders();
+            }).Start();
         }
         public void checkReminders()
         {
-            ReminderChecker checker = new ReminderChecker();
+            DynamoController checker = new DynamoController();
             while(true)//while running
             {
                 var now = DateTime.Now.ToUniversalTime();

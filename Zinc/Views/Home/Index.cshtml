@@ -1,4 +1,10 @@
-﻿<div class="jumbotron">
+﻿@{    
+    ViewBag.Time = DateTime.Now.ToUniversalTime().ToString("o");
+}
+
+
+
+<div class="jumbotron">
     <h1>Zinc</h1>
     <p class="lead">A texting calender to notify you and your family of the events in your life.</p>
     <p>You're invited to events, but you forgot to save them in your calendar. And now you might not be able to go.</p>
@@ -6,7 +12,7 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-
+        <p>@ViewBag.Time</p>
     </div>
     <div class="col-md-4">
 

@@ -8,24 +8,24 @@ namespace Zinc.Models
 {
     public class UserDetailsModel
     {
-        private QueryResponse queryResponse;
+        private GetItemResponse queryResponse;
 
         public UserDetailsModel()
         {
         }
 
-        public UserDetailsModel(QueryResponse queryResponse)
+        public UserDetailsModel(GetItemResponse queryResponse)
         {
             this.queryResponse = queryResponse;
             
-            this.phone_number = queryResponse.Items[0][UsersTable.phone_number].S;//phone_number is uuid
-            this.enabled = queryResponse.Items[0][UsersTable.enabled].BOOL;
-            this.first_name = queryResponse.Items[0][UsersTable.first_name].S;
-            this.last_name = queryResponse.Items[0][UsersTable.last_name].S;
-            this.mute = queryResponse.Items[0][UsersTable.mute].BOOL;
-            this.birthday = queryResponse.Items[0][UsersTable.birthday].S;
-            this.default_reminder_times = queryResponse.Items[0][UsersTable.default_reminder_times].S;
-            this.groups = queryResponse.Items[0][UsersTable.groups].S;
+            this.phone_number = queryResponse.Item[UsersTable.phone_number].S;//phone_number is uuid
+            this.enabled = queryResponse.Item[UsersTable.enabled].BOOL;
+            this.first_name = queryResponse.Item[UsersTable.first_name].S;
+            this.last_name = queryResponse.Item[UsersTable.last_name].S;
+            this.mute = queryResponse.Item[UsersTable.mute].BOOL;
+            this.birthday = queryResponse.Item[UsersTable.birthday].S;
+            this.default_reminder_times = queryResponse.Item[UsersTable.default_reminder_times].S;
+            this.groups = queryResponse.Item[UsersTable.groups].S;
         }
 
         public string user_uuid { get; set; }

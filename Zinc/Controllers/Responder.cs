@@ -44,7 +44,7 @@ namespace Zinc.Controllers
                 ASCIIEncoding ascii = new ASCIIEncoding();
                 byte[] postBytes = ascii.GetBytes(outgoingQueryString.ToString());
 
-                var request = HttpWebRequest.Create("https://app.eztexting.com/sending/messages?format=json&User=keithh8112&Password=QkF8r9eCMVrv");
+                var request = WebRequest.Create("https://app.eztexting.com/sending/messages?format=json&User=keithh8112&Password=QkF8r9eCMVrv");
                 request.Method = "POST";
 
                 request.ContentType = "application/x-www-form-urlencoded";

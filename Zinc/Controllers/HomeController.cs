@@ -14,5 +14,12 @@ namespace Zinc.Controllers
 
             return View();
         }
+
+        public ActionResult UpdateTime(string now)
+        {
+            ViewBag.CurrentTime = now;
+
+            return View();
+        }
     }
 }
