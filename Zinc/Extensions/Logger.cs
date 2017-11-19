@@ -18,6 +18,7 @@ namespace Zinc.Extensions
                 writer.WriteLine(message);
             }
         }
+
         public void Dispose(Logger logger)
         {
             logger = null;

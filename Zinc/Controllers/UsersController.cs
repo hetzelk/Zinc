@@ -39,12 +39,12 @@ namespace Zinc.Controllers
                 attributes[UsersTable.last_name] = new AttributeValue { S = user.last_name };
                 attributes[UsersTable.mute] = new AttributeValue { BOOL = user.mute };
                 attributes[UsersTable.birthday] = new AttributeValue { S = user.birthday };
-                attributes[UsersTable.default_reminder_times] = new AttributeValue { S = user.default_reminder_times };
+                attributes[UsersTable.default_reminder_times] = new AttributeValue { SS = user.default_reminder_times };
                 attributes[UsersTable.groups] = new AttributeValue { S = user.groups };
-                attributes["examplelist"] = new AttributeValue
-                {
-                    SS = new List<string> { "satire", "folk", "children's novel" }
-                };
+                //attributes["examplelist"] = new AttributeValue
+                //{
+                //    SS = new List<string> { "satire", "folk", "children's novel" }
+                //};
 
             PutItemRequest request = new PutItemRequest
             {

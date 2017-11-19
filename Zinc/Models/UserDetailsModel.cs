@@ -18,13 +18,13 @@ namespace Zinc.Models
         {
             this.queryResponse = queryResponse;
             
-            this.phone_number = queryResponse.Item[UsersTable.phone_number].S;//phone_number is uuid
+            this.phone_number = queryResponse.Item[UsersTable.phone_number].S;//phone_number is the key on this table
             this.enabled = queryResponse.Item[UsersTable.enabled].BOOL;
             this.first_name = queryResponse.Item[UsersTable.first_name].S;
             this.last_name = queryResponse.Item[UsersTable.last_name].S;
             this.mute = queryResponse.Item[UsersTable.mute].BOOL;
             this.birthday = queryResponse.Item[UsersTable.birthday].S;
-            this.default_reminder_times = queryResponse.Item[UsersTable.default_reminder_times].S;
+            this.default_reminder_times = queryResponse.Item[UsersTable.default_reminder_times].SS;
             this.groups = queryResponse.Item[UsersTable.groups].S;
         }
 
@@ -35,7 +35,7 @@ namespace Zinc.Models
         public string last_name { get; set; }
         public bool mute { get; set; }
         public string birthday { get; set; }        
-        public string default_reminder_times { get; set; }//string array in minute increments, 60, 120, 1440 defaults
+        public List<string> default_reminder_times { get; set; }//string array in minute increments, 60, 120, 1440 defaults
         public string groups { get; set; }
     }
 }

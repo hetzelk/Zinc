@@ -30,9 +30,13 @@ namespace Zinc.Controllers
 
             List<UserDetailsModel> members = new List<UserDetailsModel>();
             UsersController users = new UsersController();
-            foreach (string user_uuid in groupDetails.user_uuids)
+            foreach (string member_uuid in groupDetails.member_uuids)
             {
-                members.Add(users.GetUser(user_uuid));
+                UserDetailsModel nextMember = users.GetUser(member_uuid);
+                if (nextMember.mute != true && nextMember.enabled == true)
+                {
+                    members.Add(users.GetUser(member_uuid));
+                }
             }
 
             return members;

@@ -20,16 +20,17 @@ namespace Zinc.Controllers
             client = new AmazonDynamoDBClient();
         }
 
-        public List<Document> GetReminders(DateTime now)
+        public List<RemindersModel> GetReminders(DateTime now)
         {
-            List<Document> reminders = new List<Document>();
+            List<RemindersModel> reminders = new List<RemindersModel>();
+            //trim the date properly to get every reminder that starts with the current minute
             string timenow = now.ToString("o").Substring(0, 16);
 
             Table reminderTable = Table.LoadTable(client, RemindersTable.table_name);
 
             ScanFilter scanFilter = new ScanFilter();
-            //trim the date properly to get every minutes time
-            scanFilter.AddCondition(RemindersTable.reminder_date, ScanOperator.BeginsWith, timenow);
+            scanFilter.AddCondition(RemindersTable.reminder_date, ScanOperator.BeginsWith, "2017-11-19T01:09");
+            scanFilter.AddCondition("valid", ScanOperator.Equal, new List<AttributeValue> { new AttributeValue { BOOL = true } });
 
             ScanOperationConfig config = new ScanOperationConfig()
             {
@@ -39,14 +40,13 @@ namespace Zinc.Controllers
             };
 
             Search search = reminderTable.Scan(config);
-
-            List<Document> documentList = new List<Document>();
+            
             do
             {
-                documentList = search.GetNextSet();
+                List<Document> documentList = search.GetNextSet();
                 foreach (var document in documentList)
                 {
-                    reminders.Add(document);
+                    reminders.Add(new RemindersModel(document));
                 }
             } while (!search.IsDone);
             return reminders;
@@ -63,7 +63,31 @@ namespace Zinc.Controllers
         public void SendReminder(UserDetailsModel user, TextMessageModel text)
         {
             Responder responder = new Responder();
-            responder.sendEzMessage(user, text);
+            bool success = responder.sendEzMessage(user, text);
+            if (success) UpdateDynamo(user, text);
+        }
+
+        private void UpdateDynamo(UserDetailsModel user, TextMessageModel text)
+        {
+            MessageHistoryController history = new MessageHistoryController();
+            history.StoreMessage(user.phone_number, text, true);
+
+            ReminderInvalid(text.reminder_uuid);
+        }
+        public void ReminderInvalid(string reminder_uuid)
+        {
+            UpdateItemRequest request = new UpdateItemRequest();
+            request.TableName = RemindersTable.table_name;
+            request.Key = new Dictionary<string, AttributeValue>
+                {
+                        { RemindersTable.reminder_uuid, new AttributeValue { S = reminder_uuid }}
+                };
+            request.AttributeUpdates = new Dictionary<string, AttributeValueUpdate>
+                {
+                        { RemindersTable.valid, new AttributeValueUpdate(new AttributeValue { BOOL = false }, AttributeAction.PUT) }
+                };
+
+            UpdateItemResponse response = client.UpdateItem(request);
         }
     }
 }

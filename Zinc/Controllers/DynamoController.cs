@@ -27,23 +27,23 @@ namespace Zinc.Controllers
             UsersController users = new UsersController();
             Responder responder = new Responder();
 
-            List<Document> reminders = remindersCon.GetReminders(now);
+            List<RemindersModel> reminders = remindersCon.GetReminders(now);
             Parallel.ForEach(reminders, reminder =>
             {
-                TextMessageModel text = events.GetEventDetails(reminder["event_uuid"].ToString());
+                TextMessageModel text = events.GetEventForText(reminder.event_uuid);
                 List<UserDetailsModel> group = new List<UserDetailsModel>();
-                if (reminder["group_uuid"].ToString() != "0")
+                if (reminder.group_uuid != "0")
                 {
-                    text.group_uuid = reminder["group_uuid"].ToString();
+                    text.group_uuid = reminder.group_uuid;
 
                     group = groups.GetGroup(text.group_uuid);
                 }
                 else
                 {
-                    group.Add(users.GetUser(reminder["user_uuid"].ToString()));
+                    group.Add(users.GetUser(reminder.user_uuid));
                 }
-
-                remindersCon.SendReminders(group, text);
+                text.reminder_uuid = reminder.reminder_uuid.ToString();
+                if (group.Count != 0) remindersCon.SendReminders(group, text);
             });
         }
     }

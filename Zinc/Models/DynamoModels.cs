@@ -63,6 +63,11 @@ namespace Zinc.Models
     {
         public static string table_name = "MessageHistory";
 
-
+        public static string message_uuid = "message_uuid";
+        public static string message_date = "message_date";
+        public static string reminder_uuid = "reminder_uuid";
+        public static string user_uuid = "user_uuid";
+        public static string message = "message";
+        public static string successful = "successful";
     }
 }

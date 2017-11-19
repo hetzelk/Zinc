@@ -269,9 +269,11 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DynamoModels.cs" />
+    <Compile Include="Models\EventsModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IncomingMessageModel.cs" />
+    <Compile Include="Models\RemindersModel.cs" />
     <Compile Include="Models\TextMessageModel.cs" />
     <Compile Include="Models\UserDetailsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

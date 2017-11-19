@@ -26,18 +26,21 @@ namespace Zinc.Controllers
         {
         }
 
-        public void sendEzMessage(UserDetailsModel user, TextMessageModel text)
+        public bool sendEzMessage(UserDetailsModel user, TextMessageModel text)
         {
             Logger log = new Logger("sent_messages", text.event_date + " - " + user.phone_number + " - " + text.description);
-            sendMessage(user.phone_number, text.description);
+            bool success = sendMessage(user.phone_number, text);
+
+            return success;
         }
 
-        public string sendMessage(string phone_number, string textMessage)
+        public bool sendMessage(string phone_number, TextMessageModel text)
         {
+            bool successful = false;
             try
             {
                 NameValueCollection outgoingQueryString = HttpUtility.ParseQueryString(String.Empty);
-                outgoingQueryString.Add("Message", textMessage);
+                outgoingQueryString.Add("Message", text.description);
                 outgoingQueryString.Add("PhoneNumbers", phone_number);
                 string postdata = outgoingQueryString.ToString();
 
@@ -56,20 +59,22 @@ namespace Zinc.Controllers
                 postStream.Flush();
                 postStream.Close();
 
-                var response = request.GetResponse();
-                string message = FormMessage();
+                var response = request.GetResponse(); 
+
+                //string message = FormMessage();
                 //send the message
                 //update the dynamo entry to invalid since the message was sent
                 //update the logs as necessary
-
-                return message;
+                
+                successful = true;
             }
             catch (Exception e)
             {
                 Logger logs = new Logger("exceptions", e.ToString());
                 logs.Dispose(logs);
-                return e.ToString();
             }
+
+            return successful;
         }
 
         public string FormMessage()

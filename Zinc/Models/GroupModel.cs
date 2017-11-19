@@ -19,11 +19,12 @@ namespace Zinc.Models
             this.queryResponse = queryResponse;
 
             this.group_name = queryResponse.Item[GroupsTable.group_name].S;
-            this.user_uuids = queryResponse.Item[GroupsTable.members].S.Split(',').ToList();
+            this.member_uuids = queryResponse.Item[GroupsTable.members].SS;
         }
 
+        public string group_uuid { get; set; }
         public string group_name { get; set; }
-        public List<string> user_uuids { get; set; }
+        public List<string> member_uuids { get; set; }
         public List<UserDetailsModel> members { get; set; }
     }
 }

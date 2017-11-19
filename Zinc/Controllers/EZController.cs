@@ -12,11 +12,6 @@ namespace Zinc.Controllers
 {
     public class EZController : ApiController
     {
-
-        /*
-         * Future items to be added
-         * name, group
-         */
         UserDetailsModel userModel;
         IncomingMessageModel messageModel;
 
@@ -35,6 +30,7 @@ namespace Zinc.Controllers
                 var message_whole = String.Format("{0} - {1}: {2}", DateTime.Now, messageModel.initial_number, messageModel.initial_message);
                 Logger logs = new Logger("logs", message_whole);
                 logs.Dispose(logs);
+
                 /*
                  user initilization
                  figure out a way to get all the user details
@@ -54,7 +50,10 @@ namespace Zinc.Controllers
                 MessageParser parser = new MessageParser(userModel, messageModel);
                 MessageProcessor processor = new MessageProcessor(parser);
                 Responder response = new Responder(processor);
-                return response.sendMessage("4145200673", "ez reply");
+                //return response.sendMessage("4145200673", "ez reply");
+
+                string response_text = String.Format("You said {0} at {1}", messageModel.initial_message, DateTime.Now.ToUniversalTime().ToString("o"));
+                return response_text;
             }
             catch (Exception e)
             {
