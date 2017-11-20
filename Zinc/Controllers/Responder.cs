@@ -29,18 +29,18 @@ namespace Zinc.Controllers
         public bool sendEzMessage(UserDetailsModel user, TextMessageModel text)
         {
             Logger log = new Logger("sent_messages", text.event_date + " - " + user.phone_number + " - " + text.description);
-            bool success = sendMessage(user.phone_number, text);
+            bool success = sendMessage(user.phone_number, text.description);
 
             return success;
         }
 
-        public bool sendMessage(string phone_number, TextMessageModel text)
+        public bool sendMessage(string phone_number, string text)
         {
             bool successful = false;
             try
             {
                 NameValueCollection outgoingQueryString = HttpUtility.ParseQueryString(String.Empty);
-                outgoingQueryString.Add("Message", text.description);
+                outgoingQueryString.Add("Message", text);
                 outgoingQueryString.Add("PhoneNumbers", phone_number);
                 string postdata = outgoingQueryString.ToString();
 

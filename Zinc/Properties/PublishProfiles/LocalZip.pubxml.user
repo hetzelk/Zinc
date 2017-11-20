@@ -250,10 +250,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/16/2017 20:30:40</publishTime>
     </File>
     <File Include="bin/Zinc.dll">
-      <publishTime>11/18/2017 19:27:34</publishTime>
+      <publishTime>11/19/2017 18:43:18</publishTime>
     </File>
     <File Include="bin/Zinc.pdb">
-      <publishTime>11/18/2017 19:27:34</publishTime>
+      <publishTime>11/19/2017 18:43:18</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>11/16/2017 20:30:32</publishTime>
@@ -346,7 +346,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/16/2017 20:30:32</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/18/2017 19:27:40</publishTime>
+      <publishTime>11/19/2017 18:43:33</publishTime>
     </File>
   </ItemGroup>
 </Project>

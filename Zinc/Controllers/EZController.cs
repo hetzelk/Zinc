@@ -50,10 +50,16 @@ namespace Zinc.Controllers
                 MessageParser parser = new MessageParser(userModel, messageModel);
                 MessageProcessor processor = new MessageProcessor(parser);
                 Responder response = new Responder(processor);
-                //return response.sendMessage("4145200673", "ez reply");
 
                 string response_text = String.Format("You said {0} at {1}", messageModel.initial_message, DateTime.Now.ToUniversalTime().ToString("o"));
-                return response_text;
+                if(response.sendMessage(userModel.phone_number, response_text))
+                {
+                    return response_text;
+                }
+                else
+                {
+                    return "sending message failed";
+                }
             }
             catch (Exception e)
             {

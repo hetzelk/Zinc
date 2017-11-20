@@ -29,7 +29,7 @@ namespace Zinc.Controllers
             Table reminderTable = Table.LoadTable(client, RemindersTable.table_name);
 
             ScanFilter scanFilter = new ScanFilter();
-            scanFilter.AddCondition(RemindersTable.reminder_date, ScanOperator.BeginsWith, "2017-11-19T01:09");
+            scanFilter.AddCondition(RemindersTable.reminder_date, ScanOperator.BeginsWith, timenow);
             scanFilter.AddCondition("valid", ScanOperator.Equal, new List<AttributeValue> { new AttributeValue { BOOL = true } });
 
             ScanOperationConfig config = new ScanOperationConfig()
