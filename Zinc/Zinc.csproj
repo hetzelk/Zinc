@@ -256,7 +256,7 @@
     <Compile Include="Controllers\MessageModel.cs" />
     <Compile Include="Controllers\MessageParser.cs" />
     <Compile Include="Controllers\MessageProcessor.cs" />
-    <Compile Include="Controllers\ReminderController.cs" />
+    <Compile Include="Controllers\RemindersController.cs" />
     <Compile Include="Controllers\Responder.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

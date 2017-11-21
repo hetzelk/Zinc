@@ -22,7 +22,7 @@ namespace Zinc.Controllers
         public void GetDynamoReminders(DateTime now)
         {
             EventsController events = new EventsController();
-            ReminderController remindersCon = new ReminderController();
+            RemindersController remindersCon = new RemindersController();
             GroupsController groups = new GroupsController();
             UsersController users = new UsersController();
             Responder responder = new Responder();

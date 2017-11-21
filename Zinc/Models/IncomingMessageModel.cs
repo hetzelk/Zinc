@@ -35,5 +35,9 @@ namespace Zinc.Models
         public bool createGroup { get; set; }
         public string groupName { get; set; }
         public List<UserDetailsModel> groupMembers { get; set; }
+
+        //additional options
+        public string stampToSend { get; set; }
+        public bool sendText { get; set; }
     }
 }

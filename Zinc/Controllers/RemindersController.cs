@@ -11,11 +11,11 @@ using Zinc.Extensions;
 
 namespace Zinc.Controllers
 {
-    public class ReminderController
+    public class RemindersController
     {
         private AmazonDynamoDBClient client;
 
-        public ReminderController()
+        public RemindersController()
         {
             client = new AmazonDynamoDBClient();
         }
@@ -50,6 +50,43 @@ namespace Zinc.Controllers
                 }
             } while (!search.IsDone);
             return reminders;
+        }
+
+        public void CreateReminder(RemindersModel reminder)
+        {
+            Dictionary<string, AttributeValue> attributes = new Dictionary<string, AttributeValue>();
+            attributes[RemindersTable.reminder_uuid] = new AttributeValue { S = reminder.reminder_uuid };
+            attributes[RemindersTable.reminder_date] = new AttributeValue { S = reminder.reminder_date };
+            attributes[RemindersTable.event_uuid] = new AttributeValue { S = reminder.event_uuid };
+            attributes[RemindersTable.group_uuid] = new AttributeValue { S = reminder.group_uuid };
+            attributes[RemindersTable.user_uuid] = new AttributeValue { S = reminder.user_uuid };
+            attributes[RemindersTable.valid] = new AttributeValue { BOOL = true };
+
+
+            PutItemRequest request = new PutItemRequest
+            {
+                TableName = RemindersTable.table_name,
+                Item = attributes
+            };
+
+            PutItemResponse response = client.PutItem(request);
+        }
+
+        public void CreateDefaultNotificationReminders(RemindersModel reminder)
+        {
+            GroupsController groups = new GroupsController();
+            var members = groups.GetGroup(reminder.group_uuid);
+            UsersController users = new UsersController();
+            foreach (var member in members)
+            {
+                var user = users.GetUser(member.user_uuid);
+                foreach (var time in user.default_reminder_times)
+                {
+                    //adjust the time accordingly right here
+                    reminder.reminder_date = "";
+                    CreateReminder(reminder);
+                }
+            }
         }
 
         public void SendReminders(List<UserDetailsModel> members, TextMessageModel text)

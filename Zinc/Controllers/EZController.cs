@@ -24,6 +24,17 @@ namespace Zinc.Controllers
             var query_params = Request.GetQueryNameValuePairs();
             messageModel.initial_number = query_params.Where(item => item.Key == "from").First().Value.ToString();
             messageModel.initial_message = query_params.Where(item => item.Key == "message").First().Value.ToString();
+            try
+            {
+                messageModel.stampToSend = query_params.Where(item => item.Key == "StampToSend").First().Value.ToString();
+            }
+            catch { messageModel.stampToSend = "null"; }
+
+            try
+            {
+                messageModel.sendText = query_params.Where(item => item.Key == "sendtext").First().Value.ToBool();
+            }
+            catch { messageModel.sendText = true; }
 
             try
             {
@@ -52,13 +63,21 @@ namespace Zinc.Controllers
                 Responder response = new Responder(processor);
 
                 string response_text = String.Format("You said {0} at {1}", messageModel.initial_message, DateTime.Now.ToUniversalTime().ToString("o"));
-                if(response.sendMessage(userModel.phone_number, response_text))
+
+                if (messageModel.sendText)
                 {
-                    return response_text;
+                    if (response.sendMessage(userModel.phone_number, response_text))
+                    {
+                        return response_text;
+                    }
+                    else
+                    {
+                        return "sending message failed";
+                    }
                 }
                 else
                 {
-                    return "sending message failed";
+                    return response_text + "ADDITIONAL: Text not sent to phone";
                 }
             }
             catch (Exception e)

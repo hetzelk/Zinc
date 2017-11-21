@@ -8,5 +8,10 @@ namespace Zinc.Extensions
         {
             return !string.IsNullOrEmpty(str);
         }
+
+        public static bool ToBool(this string str)
+        {
+            return str.ToLower().Equals("true");
+        }
     }
 }

@@ -60,5 +60,19 @@ namespace Zinc.Controllers
 
             PutItemResponse response = client.PutItem(request);
         }
+
+        public void CreateEventAndReminders(EventsModel newEvent)
+        {
+            CreateEvent(newEvent);
+            RemindersController reminders = new RemindersController();
+            RemindersModel reminder = new RemindersModel();
+            //create reminder_uuid in the createreminder function
+            reminder.reminder_date = newEvent.event_date;
+            reminder.event_uuid = newEvent.event_uuid;
+            reminder.user_uuid = newEvent.user_uuid;
+            reminder.group_uuid = "";//TODO: figure out how to get this
+            reminder.valid = true;
+            reminders.CreateReminder(reminder);
+        }
     }
 }
