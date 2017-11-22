@@ -9,6 +9,7 @@ namespace Zinc.Models
     {
         public string initial_number { get; set; }
         public string initial_message { get; set; }
+        public string[] initial_message_array { get; set; }
 
         public bool help { get; set; }
         public bool stop { get; set; }

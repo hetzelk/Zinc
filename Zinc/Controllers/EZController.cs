@@ -24,6 +24,8 @@ namespace Zinc.Controllers
             var query_params = Request.GetQueryNameValuePairs();
             messageModel.initial_number = query_params.Where(item => item.Key == "from").First().Value.ToString();
             messageModel.initial_message = query_params.Where(item => item.Key == "message").First().Value.ToString();
+            messageModel.initial_message_array = query_params.Where(item => item.Key == "message").First().Value.Split(' ').ToArray();
+
             try
             {
                 messageModel.stampToSend = query_params.Where(item => item.Key == "StampToSend").First().Value.ToString();
@@ -77,7 +79,7 @@ namespace Zinc.Controllers
                 }
                 else
                 {
-                    return response_text + "ADDITIONAL: Text not sent to phone";
+                    return response_text + " ADDITIONAL: Text not sent to phone";
                 }
             }
             catch (Exception e)
