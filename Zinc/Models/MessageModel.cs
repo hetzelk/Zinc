@@ -1,4 +1,4 @@
-﻿namespace Zinc.Controllers
+﻿namespace Zinc.Models
 {
     public class MessageModel
     {

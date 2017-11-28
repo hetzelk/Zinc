@@ -8,18 +8,15 @@ using System.Text;
 using System.Web;
 using Zinc.Extensions;
 using Zinc.Models;
+using Zinc.Processors;
 
 namespace Zinc.Controllers
 {
     public class Responder
     {
-        public UserDetailsModel userModel;
-        public IncomingMessageModel messageModel;
-
-        public Responder(MessageProcessor processor)
+        public Responder(UserDetailsModel userModel, IncomingMessageModel messageModel, MessageProcessor processor)
         {
-            this.userModel = processor.userModel;
-            this.messageModel = processor.messageModel;
+
         }
 
         public Responder()
@@ -79,15 +76,15 @@ namespace Zinc.Controllers
 
         public string FormMessage()
         {
-            Responses responses = new Responses();
-            if (messageModel.mute)
-            {
-                return responses.Mute();
-            }
-            else
-            {
+            //Responses responses = new Responses();
+            //if (messageModel.mute)
+            //{
+            //    return responses.Mute();
+            //}
+            //else
+            //{
                 return "default response";
-            }
+            //}
         }
     }
 

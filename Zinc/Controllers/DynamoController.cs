@@ -25,7 +25,7 @@ namespace Zinc.Controllers
             RemindersController remindersCon = new RemindersController();
             GroupsController groups = new GroupsController();
             UsersController users = new UsersController();
-            Responder responder = new Responder();
+            //Responder responder = new Responder();
 
             List<RemindersModel> reminders = remindersCon.GetReminders(now);
             Parallel.ForEach(reminders, reminder =>

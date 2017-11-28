@@ -18,5 +18,10 @@ namespace Zinc.Extensions
             //ex.
             return "2 hours 30 " + hoursOrMinutes;
         }
+
+        public static string ToDateTime(this string datetime)
+        {
+            return DateTime.Parse(datetime).ToUniversalTime().ToString("o"); ;
+        }
     }
 }

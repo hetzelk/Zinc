@@ -253,9 +253,9 @@
     <Compile Include="Controllers\InitializationController.cs" />
     <Compile Include="Controllers\EZController.cs" />
     <Compile Include="Controllers\MessageHistoryController.cs" />
-    <Compile Include="Controllers\MessageModel.cs" />
-    <Compile Include="Controllers\MessageParser.cs" />
-    <Compile Include="Controllers\MessageProcessor.cs" />
+    <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Processors\MessageParser.cs" />
+    <Compile Include="Processors\MessageProcessor.cs" />
     <Compile Include="Controllers\RemindersController.cs" />
     <Compile Include="Controllers\Responder.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -276,6 +276,7 @@
     <Compile Include="Models\RemindersModel.cs" />
     <Compile Include="Models\TextMessageModel.cs" />
     <Compile Include="Models\UserDetailsModel.cs" />
+    <Compile Include="Processors\EZProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

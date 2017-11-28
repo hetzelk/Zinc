@@ -4,18 +4,12 @@ using System.Linq;
 using System.Web;
 using Zinc.Models;
 
-namespace Zinc.Controllers
+namespace Zinc.Processors
 {
     public class MessageProcessor
     {
-        public UserDetailsModel userModel;
-        public IncomingMessageModel messageModel;
-
-        public MessageProcessor(MessageParser parser)
+        public MessageProcessor(UserDetailsModel userModel, IncomingMessageModel messageModel, MessageParser parser)
         {
-            this.userModel = parser.userModel;
-            this.messageModel = parser.messageModel;
-
             ProcessMessage();
         }
 
