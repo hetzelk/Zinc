@@ -50,7 +50,7 @@ namespace Zinc.Processors
                  */
 
                 MessageParser parser = new MessageParser(userModel, messageModel);
-                MessageProcessor processor = new MessageProcessor(userModel, messageModel, parser);
+                MessageProcessor processor = new MessageProcessor(userModel, messageModel);
                 Responder responder = new Responder(userModel, messageModel, processor);
 
                 string response_text = String.Format("You said {0} at {1}", messageModel.initial_message, DateTime.Now.ToUniversalTime().ToString("o"));

@@ -19,9 +19,19 @@ namespace Zinc.Extensions
             return "2 hours 30 " + hoursOrMinutes;
         }
 
-        public static string ToDateTime(this string datetime)
+        public static string ToZincTime(this string datetime)
         {
-            return DateTime.Parse(datetime).ToUniversalTime().ToString("o"); ;
+            return DateTime.Parse(datetime).ToUniversalTime().ToString("o");
+        }
+
+        public static DateTime ToDateTime(this string datetime)
+        {
+            return DateTime.Parse(datetime);
+        }
+
+        public static int GetDateTimeHours(this string datetime)
+        {
+            return DateTime.Parse(datetime).Hour;
         }
     }
 }

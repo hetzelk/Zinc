@@ -55,6 +55,22 @@ namespace Zinc.Controllers
             PutItemResponse response = client.PutItem(request);
         }
 
+        public void Unsubscribe(string user_uuid)
+        {
+            UpdateItemRequest request = new UpdateItemRequest();
+            request.TableName = UsersTable.table_name;
+            request.Key = new Dictionary<string, AttributeValue>
+                {
+                        { UsersTable.phone_number, new AttributeValue { S = user_uuid }}
+                };
+            request.AttributeUpdates = new Dictionary<string, AttributeValueUpdate>
+                {
+                        { UsersTable.enabled, new AttributeValueUpdate(new AttributeValue { BOOL = false }, AttributeAction.PUT) }
+                };
+
+            UpdateItemResponse response = client.UpdateItem(request);
+        }
+
         public void Mute(string user_uuid)
         {
             UpdateItemRequest request = new UpdateItemRequest();

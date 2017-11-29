@@ -36,5 +36,13 @@ namespace Zinc.Controllers
 
             return new EZProcessor(messageModel).response;
         }
+
+        /*
+         Documentation for incoming messages
+         New Event
+         new event this is where the titles starts and can be as long as they want 4/22/2018 4pm family
+
+         new group keith 4145559865 
+         */
     }
 }
