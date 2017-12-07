@@ -54,8 +54,8 @@ namespace Zinc.Models
         public static string reminder_uuid = "reminder_uuid";
         public static string reminder_date = "reminder_date";
         public static string event_uuid = "event_uuid";
-        public static string group_uuid = "group_uuid";
-        public static string user_uuid = "user_uuid";
+        public static string reminder_user_uuid = "reminder_user_uuid";
+        public static string event_creator_user_uuid = "event_creator_user_uuid";
         public static string valid = "valid";
     }
 

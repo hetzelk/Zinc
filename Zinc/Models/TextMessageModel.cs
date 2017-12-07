@@ -31,7 +31,6 @@ namespace Zinc.Models
         public string reminder_uuid { get; set; }
         public string description { get; set; }
         public string note { get; set; }
-        public string group_uuid { get; set; }
         public string user_uuid { get; set; }
         public bool surprise { get; set; }
     }

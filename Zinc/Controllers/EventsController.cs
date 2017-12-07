@@ -40,10 +40,13 @@ namespace Zinc.Controllers
             return new EventsModel(entry);
         }
 
-        public void CreateEvent(EventsModel newEvent)
+        public string CreateEvent(EventsModel newEvent)
         {
+            DateTime date = DateTime.Parse(newEvent.event_date);
+            string event_uuid = date.Year + "" + date.Month + "" + date.Day + new Random().Next(0, 99999);
+            
             Dictionary<string, AttributeValue> attributes = new Dictionary<string, AttributeValue>();
-            attributes[EventsTable.event_uuid] = new AttributeValue { S = newEvent.event_uuid };
+            attributes[EventsTable.event_uuid] = new AttributeValue { S = event_uuid };
             attributes[EventsTable.event_date] = new AttributeValue { S = newEvent.event_date };
             attributes[EventsTable.event_name] = new AttributeValue { S = newEvent.event_name };
             attributes[EventsTable.description] = new AttributeValue { S = newEvent.description };
@@ -59,6 +62,8 @@ namespace Zinc.Controllers
             };
 
             PutItemResponse response = client.PutItem(request);
+
+            return event_uuid;
         }
 
         public void CreateEventAndReminders(EventsModel newEvent)
@@ -66,12 +71,12 @@ namespace Zinc.Controllers
             CreateEvent(newEvent);
             RemindersController reminders = new RemindersController();
             RemindersModel reminder = new RemindersModel();
+
             //create reminder_uuid in the createreminder function
             reminder.reminder_date = newEvent.event_date;
             reminder.event_uuid = newEvent.event_uuid;
-            reminder.user_uuid = newEvent.user_uuid;
-            reminder.group_uuid = "";//TODO: figure out how to get this
-            reminder.valid = true;
+            reminder.reminder_user_uuid = newEvent.user_uuid;
+            reminder.event_creator_user_uuid = newEvent.user_uuid;//TODO: figure out how to get this
             reminders.CreateReminder(reminder);
         }
     }

@@ -31,19 +31,8 @@ namespace Zinc.Controllers
             Parallel.ForEach(reminders, reminder =>
             {
                 TextMessageModel text = events.GetEventForText(reminder.event_uuid);
-                List<UserDetailsModel> group = new List<UserDetailsModel>();
-                if (reminder.group_uuid != "0")
-                {
-                    text.group_uuid = reminder.group_uuid;
-
-                    group = groups.GetGroup(text.group_uuid);
-                }
-                else
-                {
-                    group.Add(users.GetUser(reminder.user_uuid));
-                }
-                text.reminder_uuid = reminder.reminder_uuid.ToString();
-                if (group.Count != 0) remindersCon.SendReminders(group, text);
+                UserDetailsModel user = new UsersController().GetUser(text.user_uuid);
+                remindersCon.SendReminder(user, text);
             });
         }
     }
