@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Zinc.Extensions;
 using Zinc.Models;
 
 namespace Zinc.Controllers
@@ -42,8 +43,7 @@ namespace Zinc.Controllers
 
         public string CreateEvent(EventsModel newEvent)
         {
-            DateTime date = DateTime.Parse(newEvent.event_date);
-            string event_uuid = date.Year + "" + date.Month + "" + date.Day + new Random().Next(0, 99999);
+            string event_uuid = newEvent.event_date.GenerateUuid();
             
             Dictionary<string, AttributeValue> attributes = new Dictionary<string, AttributeValue>();
             attributes[EventsTable.event_uuid] = new AttributeValue { S = event_uuid };

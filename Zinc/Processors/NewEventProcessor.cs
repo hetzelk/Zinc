@@ -14,26 +14,20 @@ namespace Zinc.Processors
 
         public NewEventProcessor(newEventModel new_event)
         {
-            /*to do
-             * create new event off of incoming data
-             * look up the group, get the group
-             * create reminders for each one of the group members
-             */
             this.new_event = new_event;
             ProcessNewEvent();
         }
 
         public void ProcessNewEvent()
         {
-            EventsController events = new EventsController();
             EventsModel event_model = new EventsModel(new_event);
-            event_model.event_uuid = events.CreateEvent(event_model);
+            event_model.event_uuid = new EventsController().CreateEvent(event_model);
 
             GroupsController groups = new GroupsController();
             List<UserDetailsModel> members = groups.GetGroup(new_event.group);
 
             RemindersController reminders = new RemindersController();
-            RemindersModel reminder = new RemindersModel();
+            RemindersModel reminder = null;
             foreach (UserDetailsModel user in members)
             {
                 reminder = new RemindersModel();
@@ -43,12 +37,6 @@ namespace Zinc.Processors
                 reminder.event_creator_user_uuid = new_event.phone_number;
 
                 reminders.CreateDefaultNotificationReminders(user, reminder);
-
-                //foreach (string reminder_time in user.default_reminder_times)
-                //{
-                //    reminder.reminder_date = reminders.GetNewReminderTime(DateTime.Parse(reminder.event_date), reminder_time).ToString("o");
-                //    reminders.CreateReminder(reminder);
-                //}
             }
         }
     }

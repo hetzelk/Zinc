@@ -27,5 +27,20 @@ namespace Zinc.Extensions
              */
             return false;
         }
+
+        public static Int16 ToInt16(this string str)
+        {
+            return Int16.Parse(str);
+        }
+
+        public static Int32 ToInt32(this string str)
+        {
+            return Int32.Parse(str);
+        }
+
+        public static Int64 ToInt64(this string str)
+        {
+            return Int64.Parse(str);
+        }
     }
 }

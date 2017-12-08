@@ -33,5 +33,12 @@ namespace Zinc.Extensions
         {
             return DateTime.Parse(datetime).Hour;
         }
+
+        public static string GenerateUuid(this string new_date)
+        {
+            DateTime date = DateTime.Parse(new_date);
+            string uuid = date.Year + "" + date.Month + "" + date.Day + new Random().Next(0, 99999);
+            return uuid;
+        }
     }
 }

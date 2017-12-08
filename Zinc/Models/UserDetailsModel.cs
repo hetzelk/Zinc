@@ -17,8 +17,9 @@ namespace Zinc.Models
         public UserDetailsModel(GetItemResponse queryResponse)
         {
             this.queryResponse = queryResponse;
-            
+
             this.phone_number = queryResponse.Item[UsersTable.phone_number].S;//phone_number is the key on this table
+            this.user_uuid = queryResponse.Item[UsersTable.phone_number].S;
             this.enabled = queryResponse.Item[UsersTable.enabled].BOOL;
             this.first_name = queryResponse.Item[UsersTable.first_name].S;
             this.last_name = queryResponse.Item[UsersTable.last_name].S;

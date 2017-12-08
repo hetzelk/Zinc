@@ -54,8 +54,7 @@ namespace Zinc.Controllers
 
         public void CreateReminder(RemindersModel reminder)
         {
-            DateTime date = DateTime.Parse(reminder.event_date);
-            string reminder_uuid = date.Year + "" + date.Month + "" + date.Day + new Random().Next(0, 99999);
+            string reminder_uuid = reminder.event_date.GenerateUuid();
 
             Dictionary<string, AttributeValue> attributes = new Dictionary<string, AttributeValue>();
             attributes[RemindersTable.reminder_uuid] = new AttributeValue { S = reminder_uuid };
@@ -117,6 +116,10 @@ namespace Zinc.Controllers
 
         public DateTime GetNewReminderTime(DateTime event_date, string time)
         {
+            if (time.ToInt16() >= 20)
+            {
+                time
+            }
             int reminder_hour = time.GetDateTimeHours();
             /* TODO: test this to make sure that it works as expected.
              * ex
