@@ -40,7 +40,7 @@ namespace Zinc.Controllers
             };
 
             Search search = reminderTable.Scan(config);
-            
+
             do
             {
                 List<Document> documentList = search.GetNextSet();
@@ -54,14 +54,15 @@ namespace Zinc.Controllers
 
         public void CreateReminder(RemindersModel reminder)
         {
+            string reminder_uuid = reminder.event_date.GenerateUuid();
+
             Dictionary<string, AttributeValue> attributes = new Dictionary<string, AttributeValue>();
-            attributes[RemindersTable.reminder_uuid] = new AttributeValue { S = reminder.reminder_uuid };
+            attributes[RemindersTable.reminder_uuid] = new AttributeValue { S = reminder_uuid };
             attributes[RemindersTable.reminder_date] = new AttributeValue { S = reminder.reminder_date };
             attributes[RemindersTable.event_uuid] = new AttributeValue { S = reminder.event_uuid };
-            attributes[RemindersTable.group_uuid] = new AttributeValue { S = reminder.group_uuid };
-            attributes[RemindersTable.user_uuid] = new AttributeValue { S = reminder.user_uuid };
+            attributes[RemindersTable.reminder_user_uuid] = new AttributeValue { S = reminder.reminder_user_uuid };
+            attributes[RemindersTable.event_creator_user_uuid] = new AttributeValue { S = reminder.event_creator_user_uuid };
             attributes[RemindersTable.valid] = new AttributeValue { BOOL = true };
-
 
             PutItemRequest request = new PutItemRequest
             {
@@ -72,28 +73,13 @@ namespace Zinc.Controllers
             PutItemResponse response = client.PutItem(request);
         }
 
-        public void CreateDefaultNotificationReminders(RemindersModel reminder)
+        public void CreateDefaultNotificationReminders(UserDetailsModel user, RemindersModel reminder)
         {
-            GroupsController groups = new GroupsController();
-            var members = groups.GetGroup(reminder.group_uuid);
-            UsersController users = new UsersController();
-            foreach (var member in members)
+            foreach (string time in user.default_reminder_times)
             {
-                var user = users.GetUser(member.user_uuid);
-                foreach (var time in user.default_reminder_times)
-                {
-                    //adjust the time accordingly right here
-                    reminder.reminder_date = "";
-                    CreateReminder(reminder);
-                }
-            }
-        }
-
-        public void SendReminders(List<UserDetailsModel> members, TextMessageModel text)
-        {
-            foreach (var member in members)
-            {
-                SendReminder(member, text);
+                //adjust the time accordingly right here
+                reminder.reminder_date = GetNewReminderTime(DateTime.Parse(reminder.event_date), time).ToString("o");
+                CreateReminder(reminder);
             }
         }
 
@@ -101,16 +87,17 @@ namespace Zinc.Controllers
         {
             Responder responder = new Responder();
             bool success = responder.sendEzMessage(user, text);
-            if (success) UpdateDynamo(user, text);
+            if (success) InvalidateAndStoreMessage(user, text);
         }
 
-        private void UpdateDynamo(UserDetailsModel user, TextMessageModel text)
+        private void InvalidateAndStoreMessage(UserDetailsModel user, TextMessageModel text)
         {
             MessageHistoryController history = new MessageHistoryController();
             history.StoreMessage(user.phone_number, text, true);
 
             ReminderInvalidate(text.reminder_uuid);
         }
+
         public void ReminderInvalidate(string reminder_uuid)
         {
             UpdateItemRequest request = new UpdateItemRequest();
@@ -125,6 +112,21 @@ namespace Zinc.Controllers
                 };
 
             UpdateItemResponse response = client.UpdateItem(request);
+        }
+
+        public DateTime GetNewReminderTime(DateTime event_date, string time)
+        {
+            if (time.ToInt16() >= 20)
+            {
+                //time
+            }
+            int reminder_hour = time.GetDateTimeHours();
+            /* TODO: test this to make sure that it works as expected.
+             * ex
+             * party is at 3pm
+             * i want to be reminded at 12:01pm, 8am, and 12:01pm the previous day.
+             */
+            return event_date.AddHours(-event_date.Hour).AddHours(reminder_hour);
         }
     }
 }

@@ -37,12 +37,22 @@ namespace Zinc.Controllers
             return new EZProcessor(messageModel).response;
         }
 
-        /*
-         Documentation for incoming messages
-         New Event
-         new event this is where the titles starts and can be as long as they want 4/22/2018 4pm family
+        // POST api/ez
+        public string Post([FromBody]newEventModel new_event)
+        {
+            return new NewEventProcessor(new_event).response;
+        }
+    }
 
-         new group keith 4145559865 
-         */
+    public class newEventModel
+    {
+        public string phone_number { get; set; }
+        public string event_name { get; set; }
+        public string event_date { get; set; }
+        public string description { get; set; }
+        public string note { get; set; }
+        public string group { get; set; }
+        public string repeat_cadence { get; set; }
+        public string surprise { get; set; }
     }
 }

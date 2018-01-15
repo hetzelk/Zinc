@@ -11,7 +11,7 @@ namespace Zinc.Extensions
 
         public static bool ToBool(this string str)
         {
-            return str.ToLower().Equals("true");
+            return str.ToLower() == "true" || str.ToLower() == "1";
         }
 
         public static bool VerifyPhoneNumber(this string str)
@@ -26,6 +26,21 @@ namespace Zinc.Extensions
             create an intuitive way to determine whether it's a number or not
              */
             return false;
+        }
+
+        public static Int16 ToInt16(this string str)
+        {
+            return Int16.Parse(str);
+        }
+
+        public static Int32 ToInt32(this string str)
+        {
+            return Int32.Parse(str);
+        }
+
+        public static Int64 ToInt64(this string str)
+        {
+            return Int64.Parse(str);
         }
     }
 }
