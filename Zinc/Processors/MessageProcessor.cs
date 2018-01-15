@@ -18,11 +18,16 @@ namespace Zinc.Processors
         public MessageProcessor(UserDetailsModel userModel, IncomingMessageModel messageModel)
         {
             userModel = userscon.GetUser(userModel.phone_number);
-
+            
             if (messageModel.ezzinc)
             {
                 //start the sign on process if they already haven't
-                OnboardUser(messageModel);
+                OnboardUser(userModel, messageModel);
+            }
+            else if (userModel.status != "complete")
+            {
+                //TODO break out here, there is no need to continue until they have entered their other details
+                new OnboardingController(userModel, messageModel);
             }
 
             if (messageModel.stop)
@@ -108,8 +113,11 @@ namespace Zinc.Processors
             }
         }
 
-        private void OnboardUser(IncomingMessageModel messageModel)
+        private void OnboardUser(UserDetailsModel userModel, IncomingMessageModel messageModel)
         {
+            //TODO this starts the sign on process
+            //TODO 
+
             /*
              user initilization
              figure out a way to get all the user details
@@ -125,7 +133,7 @@ namespace Zinc.Processors
 
             "Is the default event time of 2PM fine? Otherwise you have to specify an event time plus the date."
              */
-            throw new NotImplementedException();
+            new OnboardingController(userModel, messageModel);
         }
 
         private void UnsubscribeUser(UserDetailsModel userModel)

@@ -27,6 +27,7 @@ namespace Zinc.Models
             this.birthday = queryResponse.Item[UsersTable.birthday].S;
             this.default_reminder_times = queryResponse.Item[UsersTable.default_reminder_times].SS;
             this.groups = queryResponse.Item[UsersTable.groups].S;
+            this.status = queryResponse.Item[UsersTable.status].S;
         }
 
         public string user_uuid { get; set; }
@@ -38,5 +39,6 @@ namespace Zinc.Models
         public string birthday { get; set; }        
         public List<string> default_reminder_times { get; set; }//string array in minute increments, 60, 120, 1440 defaults
         public string groups { get; set; }
+        public string status { get; set; }
     }
 }

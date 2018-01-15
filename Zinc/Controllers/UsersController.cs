@@ -19,6 +19,7 @@ namespace Zinc.Controllers
 
         public UserDetailsModel GetUser(string user_uuid)
         {
+            user_uuid = "123123";
             GetItemResponse entry = client.GetItem(
                 UsersTable.table_name,
                 new Dictionary<string, AttributeValue>

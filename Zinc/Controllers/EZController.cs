@@ -13,6 +13,7 @@ namespace Zinc.Controllers
         IncomingMessageModel messageModel;
 
         // GET api/ez?from=123123123&message=helloWorld
+        //This is where every message is received
         public string Get()
         {
             messageModel = new IncomingMessageModel();
@@ -38,6 +39,7 @@ namespace Zinc.Controllers
         }
 
         // POST api/ez
+        //this is for creating an event from an API
         public string Post([FromBody]newEventModel new_event)
         {
             return new NewEventProcessor(new_event).response;

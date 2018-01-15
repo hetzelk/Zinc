@@ -22,6 +22,7 @@ namespace Zinc.Models
         public static string default_reminder_times = "default_reminder_times";
         public static string surprise = "surprise";
         public static string groups = "groups";
+        public static string status = "status";
     }
 
     public static class GroupsTable

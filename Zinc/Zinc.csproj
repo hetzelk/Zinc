@@ -253,7 +253,7 @@
     <Compile Include="Controllers\InitializationController.cs" />
     <Compile Include="Controllers\EZController.cs" />
     <Compile Include="Controllers\MessageHistoryController.cs" />
-    <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Controllers\OnboardingController.cs" />
     <Compile Include="Processors\MessageParser.cs" />
     <Compile Include="Processors\MessageProcessor.cs" />
     <Compile Include="Controllers\RemindersController.cs" />
