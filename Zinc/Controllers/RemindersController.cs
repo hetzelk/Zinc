@@ -109,9 +109,9 @@ namespace Zinc.Controllers
             MessageHistoryController history = new MessageHistoryController();
             history.StoreMessage(user.phone_number, text, true);
 
-            ReminderInvalid(text.reminder_uuid);
+            ReminderInvalidate(text.reminder_uuid);
         }
-        public void ReminderInvalid(string reminder_uuid)
+        public void ReminderInvalidate(string reminder_uuid)
         {
             UpdateItemRequest request = new UpdateItemRequest();
             request.TableName = RemindersTable.table_name;
